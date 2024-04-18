@@ -1,0 +1,19 @@
+# .gitignore
+
+# Python/Django
+*.pyc
+__pycache__
+*.sqlite3
+*.pyc
+*.pyo
+*.pyd
+
+# Environments
+.env
+
+# IDE files
+.idea/
+.vscode/
+
+# Dependency directories
+venv/
