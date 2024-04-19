@@ -22,13 +22,11 @@ def user_login(request):
 
 # accounts/views.py
 from django.contrib.auth import logout
-from django.shortcuts import redirect
 
 def user_logout(request):
     logout(request)
     return redirect('login')  # Redirect to the login page after logout
 
-from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 
 def register(request):
@@ -40,4 +38,8 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'registration.html', {'form': form})
+
+def homepage(request):
+    return render(request, 'homepage.html')
+
 
