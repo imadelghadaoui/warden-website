@@ -1,25 +1,24 @@
-# accounts/views.py
 from django.shortcuts import render, redirect
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
-from .forms import LoginForm
 
 def user_login(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
+        form = AuthenticationForm(request, request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                # Redirect to dashboard or any other page after login
-                return redirect('dashboard')  # Assuming 'dashboard' is the name of your dashboard URL pattern
+                return redirect('dashboard')  # Redirect to the dashboard after successful login
             else:
-                # Invalid login
-                return render(request, 'accounts/login.html', {'form': form, 'error': 'Invalid username or password.'})
+                # Handle incorrect login attempt
+                return render(request, 'login.html', {'form': form, 'error_message': 'Invalid username or password'})
     else:
-        form = LoginForm()
-    return render(request, 'accounts/login.html', {'form': form})
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
+
 
 # accounts/views.py
 from django.contrib.auth import logout
@@ -29,16 +28,16 @@ def user_logout(request):
     logout(request)
     return redirect('login')  # Redirect to the login page after logout
 
-# views.py
 from django.shortcuts import render, redirect
-from .forms import RegistrationForm
+from django.contrib.auth.forms import UserCreationForm
 
 def register(request):
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Redirect to login page after successful registration
+            return redirect('login')  # Redirect to the login page after successful registration
     else:
-        form = RegistrationForm()
+        form = UserCreationForm()
     return render(request, 'registration.html', {'form': form})
+
