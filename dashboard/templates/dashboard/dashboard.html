@@ -1,14 +1,93 @@
-<!-- dashboard/templates/dashboard/dashboard.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Student Attendance Dashboard</title>
+    <style media="screen">
+        *,
+        *:before,
+        *:after {
+          padding: 0;
+          margin: 0;
+          box-sizing: border-box;
+        }
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f2f2f2;
+        }
+        h2 {
+          text-align: center;
+          padding: 20px;
+          background-color: #333;
+          color: #fff;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          background-color: #fff;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        th,
+        td {
+          padding: 15px;
+          border: 1px solid #ddd;
+          text-align: left;
+        }
+        th {
+          background-color: #333;
+          color: #fff;
+        }
+        tr:nth-child(even) {
+          background-color: #f2f2f2;
+        }
+        a {
+          display: block;
+          text-align: center;
+          padding: 10px;
+          background-color: #333;
+          color: #fff;
+          text-decoration: none;
+        }
+      </style>
 </head>
 <body>
-    <h2>Welcome to the Dashboard</h2>
+    <h2>Student Attendance Dashboard</h2>
     <!-- Add your dashboard content here -->
+    <table>
+        <thead>
+            <tr>
+                <th>Class</th>
+                <th>Total Students</th>
+                <th>Present Today</th>
+                <th>Absent Today</th>
+                <th>Attendance Rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Math</td>
+                <td>30</td>
+                <td>25</td>
+                <td>5</td>
+                <td>83.33%</td>
+            </tr>
+            <tr>
+                <td>English</td>
+                <td>25</td>
+                <td>22</td>
+                <td>3</td>
+                <td>88.00%</td>
+            </tr>
+            <tr>
+                <td>Science</td>
+                <td>28</td>
+                <td>24</td>
+                <td>4</td>
+                <td>85.71%</td>
+            </tr>
+        </tbody>
+    </table>
     <a href="{% url 'logout' %}">Logout</a> <!-- Assuming you have a logout URL named 'logout' -->
 </body>
 </html>
