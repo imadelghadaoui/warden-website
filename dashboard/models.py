@@ -1,9 +1,9 @@
 from django.db import models
 
 # Create your models here.
-class StudentClass(models.Model):
+class Student(models.Model):
     name = models.CharField(max_length=50)
-    description = models.TextField()
+    presence_time=models.IntegerField(default=0)
     id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
