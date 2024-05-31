@@ -17,7 +17,7 @@ def user_login(request):
                 return render(request, 'login.html', {'form': form, 'error_message': 'Invalid username or password'})
     else:
         form = AuthenticationForm()
-    return render(request, 'accounts/login.html', {'form': form})
+    return render(request, 'templates/accounts/login.html', {'form': form})
 
 
 # accounts/views.py

@@ -14,7 +14,7 @@ from django.shortcuts import render, redirect
 
 #@login_required
 def dashboard(request):
-    return render(request, 'dashboard/dashboard.html')
+    return render(request, '/Dashboard/dashboard.html')
 
 
 @api_view(['GET'])

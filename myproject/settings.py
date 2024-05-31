@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'accounts',   # Add the accounts app
+    'accounts',  # Add the accounts app
     'dashboard',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -78,12 +78,9 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'students',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',  # or '127.0.0.1' if MySQL server is running locally
-        'PORT': '3306',}
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
+    }
 }
 
 

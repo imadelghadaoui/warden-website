@@ -27,3 +27,8 @@ class PresenceRecord(models.Model):
     def __str__(self):
         # Return a string representation of the PresenceRecord object
         return f"{self.student.name} - {self.date} - Present: {self.present}"
+    
+class Classes(models.Model):
+    name=models.CharField(max_length=50)
+    nombre=models.IntegerField(default=0)
+    #id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
