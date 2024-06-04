@@ -40,7 +40,7 @@ def login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             auth_login(request, user)
-            return redirect('dashboard_home')
+            return redirect('dashboard/templates/home.html')
         else:
             return render(request, 'accounts/login.html', {'error': 'Invalid username or password'})
     else:
