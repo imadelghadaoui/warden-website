@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Login</title>
- 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
@@ -22,8 +23,8 @@
         }
         
         .background {
-            width: 430px;
-            height: 520px;
+            width: 400px;
+            height: 600px;
             position: absolute;
             transform: translate(-50%, -50%);
             left: 50%;
@@ -46,7 +47,7 @@
         
         .shape:last-child {
             background: linear-gradient(to right, #b2d9c4, #44916f);
-            right: -90px;
+            right: -30px;
             bottom: -80px;
         }
 
@@ -65,7 +66,7 @@
             }
 
         }
-        
+
         form {
             height: 520px;
             width: 400px;
@@ -91,33 +92,34 @@
         }
         
         form h3 {
+            margin-top: -30px;
             font-size: 32px;
             font-weight: 500;
-            line-height: 42px;
+            line-height: 40px;
             text-align: center;
         }
-        
-        label {
-            display: block;
-            margin-top: 30px;
-            font-size: 16px;
-            font-weight: 500;
+        form p {
+            text-align: center;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
         }
         
-        input {
-            display: block;
-            height: 50px;
+        input, textarea {
             width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
             background-color: rgba(255, 255, 255, 0.07);
-            border-radius: 3px;
-            padding: 0 10px;
-            margin-top: 8px;
-            font-size: 14px;
-            font-weight: 300;
+            color: #00568f;
+            font-size: 16px;
+            outline: none;
         }
         
-        ::placeholder {
-            color: #00568f;
+        textarea {
+            height: 70px;
+            resize: none;
         }
         
         .button {
@@ -143,7 +145,7 @@
         }
         
         .button:first-child {
-            background-color: #00568f; /* Red background color for Purchase button */
+            background-color: #00568f; 
         }
         
         .button:first-child:hover {
@@ -160,7 +162,6 @@
             width: 48%; /* Adjusted width for two buttons */
         }
     </style>
-    
 </head>
 <body>
     <div class="background">
@@ -169,22 +170,16 @@
     </div>
     <form method="post">
         {% csrf_token %}
-        <h3>Login Here</h3>
-
-        <label for="username">Username</label>
-        <input type="text" placeholder="Email or Phone" name="username" id="username">
-
-        <label for="password">Password</label>
-        <input type="password" placeholder="Password" name="password" id="password">
-
-        {% if error %}
-            <p><strong>{{ error }} !</strong></p>
-        {% endif %}
-
-        <button type="submit" class="button">Login</button>
+        <h3>Contact Us</h3>
+        <p>Please fill out the form below </p>
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <input type="tel" name="phone" placeholder="Your Phone" optional>
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit" class="button">Submit</button>
         <div class="others">
             <a href="{% url 'home' %}" class="button"> Home</a>
-            <a href="{% url 'contact_us' %}" class="button"> Purchase</a>
+            <a href="{% url 'login' %}" class="button"> Login</a>
         </div>
     </form>
 </body>

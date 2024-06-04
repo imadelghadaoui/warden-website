@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Home</title>
+ 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+        *,
+        *:before,
+        *:after {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+    
+        body {
+            background-color: #e8e8e8;
+            overflow: hidden; /* Remove page scroll */
+        }
+    
+        .background {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+    
+        .background .shape {
+            position: absolute;
+            border-radius: 50%;
+        }
+    
+        .shape:first-child {
+            background: radial-gradient(circle at 80% 50%, #80b9c8, #247d7f);
+            width: 470px;
+            height: 470px;
+            top: -150px;
+            left: -200px;
+        }
+    
+        .shape:last-child {
+            background: radial-gradient(circle at 20% 50%, #b2d9c4, #44916f);
+            width: 450px;
+            height: 450px;
+            bottom: -200px;
+            right: -150px;
+        }
+
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #00568f; /* White text color */
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+        }
+    
+        .container h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.845); /* Text shadow for emphasis */
+        }
+    
+        .container p {
+            font-size: 24px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.689); /* Text shadow for emphasis */
+            margin-bottom: 30px;
+        }
+    
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+    
+        .button {
+            padding: 15px 40px; /* Adjusted padding for both buttons */
+            font-size: 20px;
+            background-color: #00568f; /* Blue background color */
+            color: #ffffff; /* White text color */
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Box shadow for depth */
+            text-decoration: none; /* Remove underline */
+        }
+    
+        .button:hover {
+            background-color: #ff512f; /* Darker blue on hover */
+        }
+    
+        .button:first-child {
+            background-color: #00568f; /* Red background color for Purchase button */
+        }
+    
+        .button:first-child:hover {
+            background-color: #ff512f; /* Darker red on hover */
+        }
+    
+        .button i {
+            margin-right: 10px;
+        }
+    </style>
+    
+    
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <div class="container">
+        <div>
+            <h1>Welcome to SmartCam</h1>
+            <p>Let your journey begin!</p>
+        </div>
+        <div class="buttons">
+            <a href="{% url 'contact_us' %}" class="button"><i class="fas fa-shopping-cart"></i> Purchase</a>
+            <a href="{% url 'login' %}" class="button"><i class="fas fa-sign-in-alt"></i> Login</a>
+        </div>
+    </div>
+</body>
+</html>
