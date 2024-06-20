@@ -12,9 +12,9 @@ from django.shortcuts import render, redirect
 
 
 
-#@login_required
+@login_required
 def dashboard(request):
-    return render(request, '/Dashboard/dashboard.html')
+    return render(request, 'homepage.html')
 
 
 @api_view(['GET'])
@@ -32,7 +32,7 @@ def store_new_student(request):
             return redirect('success_page')  # Redirect to a success page
     else:
         form = StudentForm()
-    return render(request, 'your_app/add_student.html', {'form': form})
+    return render(request, 'AddStudent.html', {'form': form})
 
 @api_view(['PUT'])
 def update_student(request, student_id):
