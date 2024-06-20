@@ -6,17 +6,21 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Student, PresenceRecords
+from .models import Student, PresenceRecords , Attendance
 from .serializers import StudentSerializer, PresenceRecordSerializer
 from .forms import StudentForm,PresenceRecordForm
 from django.shortcuts import render, redirect
 
 
 
-@login_required
+#@login_required
 def dashboard(request):
-    return render(request, 'dashboard.html')
-
+    # Assuming you have a view function to render the attendance dashboard
+    attendance_data = Attendance.objects.first()  # Assuming there's only one attendance record
+    context = {
+        'attendance_data': attendance_data,
+    }
+    return render(request, 'dashboard.html', context)
 
 @api_view(['GET'])
 def list_students(request):

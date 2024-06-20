@@ -27,9 +27,25 @@ class PresenceRecords(models.Model):
         return f"{self.student.roll_number} - {self.date} - Present: {self.present}"
     class Meta:
         db_table = 'dashboard_presencerecord'
+class Attendance(models.Model):
+    class_name = models.CharField(max_length=100)
+    total_students = models.IntegerField(default=0)  # Default value for total students
+    total_present = models.IntegerField(default=0)  # Default value for total present
+    total_absent = models.IntegerField(default=0)  # Default value for total absent
 
-class Classes(models.Model):
-    name=models.CharField(max_length=50)
-    nombre=models.IntegerField(default=0)
-    #id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    def calculate_totals(self):
+        # Calculate total students
+        self.total_students = Student.objects.count()
+        
+        # Calculate total present and absent for a specific date (e.g., today's date)
+        from django.utils import timezone
+        today = timezone.now().date()
+        self.total_present = PresenceRecords.objects.filter(date=today, present=True).count()
+        self.total_absent = PresenceRecords.objects.filter(date=today, present=False).count()
 
+    def save(self, *args, **kwargs):
+        self.calculate_totals()  # Calculate totals before saving
+        super().save(*args, **kwargs)  # Call the parent class's save method
+
+    def __str__(self):
+        return self.class_name  # Customize the string representation as needed
