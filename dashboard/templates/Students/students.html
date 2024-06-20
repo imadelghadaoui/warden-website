@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +18,7 @@
         <div class="container">
           <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-              <img src="C:\Users\imad kannouf\Downloads\5AF004D0-2634-4999-B2CB-E29C9002151F.png" alt="Logo" class="me-2" width="40" height="40">
+              <img src="../Image.png" alt="Logo" class="me-2" width="40" height="40">
           </a>
     
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -25,11 +26,9 @@
               <li><a href="#" class="nav-link px-2 text-white">Contact us</a></li>
             </ul>
     
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-              <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
-            </form>
     
             <div class="text-end">
+              <a href="{% url 'store_new_student' %}" class="btn btn-success">Add New Student</a>
               <button type="button" class="btn btn-warning">logout</button>
             </div>
           </div>
@@ -42,18 +41,25 @@
             <tr>
               <th scope="col">id</th>
               <th scope="col">Name</th>
-              <th scope="col">time of detection</th>
+              <th scope="col">Total presence</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
-        <tbody>
+          <tbody>
             {% for student in students %}
                 <tr>
-                    <td>{{ student.name }}</td>
                     <td>{{ student.id }}</td>
-                    <td>{{ student.presence_time }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.total_presence }}</td>
+                    <td>
+                        <a href="{% url 'view_student' student.id %}" class="btn btn-primary btn-sm">View</a>
+                        <a href="{% url 'edit_student' student.id %}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="{% url 'delete_student' student.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
                 </tr>
             {% endfor %}
-        </tbody>
-    </table>
+          </tbody>
+        </table>
+      </div>
 </body>
 </html>

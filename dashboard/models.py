@@ -8,7 +8,7 @@ from django.utils import timezone
 class Student(models.Model):
     # Define the attributes for the Student model
     name = models.CharField(max_length=100, help_text="Enter the student's name")
-    image = models.ImageField(upload_to='student_images/')
+    image = models.ImageField(upload_to='student_images/', null=True, blank=True)
     roll_number = models.CharField(max_length=20, unique=True, help_text="Enter the student's roll number")
     email = models.EmailField(unique=True, help_text="Enter the student's email address")
     date_of_birth = models.DateField(help_text="Enter the student's date of birth")
@@ -32,3 +32,4 @@ class Classes(models.Model):
     name=models.CharField(max_length=50)
     nombre=models.IntegerField(default=0)
     #id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+

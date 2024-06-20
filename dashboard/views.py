@@ -1,4 +1,5 @@
 # dashboard/views.py
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 # views.py
@@ -14,40 +15,67 @@ from django.shortcuts import render, redirect
 
 @login_required
 def dashboard(request):
-    return render(request, 'homepage.html')
+    return render(request, 'dashboard.html')
 
 
 @api_view(['GET'])
 def list_students(request):
     students = Student.objects.all()
-    serializer = StudentSerializer(students, many=True)
-    return Response(serializer.data)
+    return render(request, 'Students/students.html', {'students': students})
 
-@api_view(['POST'])
+
 def store_new_student(request):
     if request.method == 'POST':
         form = StudentForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()  # Save the form data to create a new student
-            return redirect('success_page')  # Redirect to a success page
+            return redirect('list_students')  # Redirect to a success page
     else:
         form = StudentForm()
-    return render(request, 'AddStudent.html', {'form': form})
+    return render(request, 'Students/AddStudent.html', {'form': form})
+
+
+
+
+
 
 @api_view(['PUT'])
-def update_student(request, student_id):
+def api_edit_student(request, student_id):
     student = get_object_or_404(Student, pk=student_id)
-    serializer = StudentSerializer(student, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=400)
+    if request.method == 'PUT':
+        form = StudentForm(request.data, instance=student)
+        if form.is_valid():
+            form.save()
+            return Response({'success': 'Student information has been updated successfully.'})
+        return Response(form.errors, status=400)
+    return Response({'error': 'Invalid request method'}, status=405)
 
-@api_view(['DELETE'])
-def delete_student(request, student_id):
+def edit_student(request, student_id):
     student = get_object_or_404(Student, pk=student_id)
-    student.delete()
-    return Response(status=204)
+    if request.method == 'POST':
+        form = StudentForm(request.POST, request.FILES, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('list_students')
+    else:
+        form = StudentForm(instance=student)
+    return render(request, 'Students/Edit/EditStudent.html', {'form': form})
+
+
+@api_view(['DELETE', 'GET', 'POST'])
+def delete_student(request, student_id):
+    student = get_object_or_404(Student, id=student_id)
+    if request.method == 'POST':
+        student.delete()
+        return redirect('list_students')
+    return render(request, 'Students/Delete/DeleteStudent.html', {'student': student})
+
+
+
+def view_student(request, student_id):
+    student = get_object_or_404(Student, pk=student_id)
+    return render(request, 'Students/View/view_student.html', {'student': student})
+
 
 @api_view(['POST'])
 def create_presence_record(request):
