@@ -5,7 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', dashboard, name='Dashboard'),
+    path('', dashboard, name='homepage'),
     # You can add more URLs for additional dashboard functionalities
     path('students/', list_students, name='list_students'),
     path('students/new/', store_new_student, name='store_new_student'),

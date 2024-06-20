@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.core.mail import send_mail
 from .forms import ContactForm
 from django.contrib.auth.views import LoginView
-from django.urls import reverse_lazy
+from django.urls import reverse
 
 def home(request):
     return render(request, 'home.html')
@@ -40,12 +40,11 @@ def login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             auth_login(request, user)
-            return redirect('dashboard/templates/home.html')
+            return redirect('/dashboard')
         else:
             return render(request, 'accounts/login.html', {'error': 'Invalid username or password'})
     else:
         return render(request, 'accounts/login.html')
-
 
 def logout(request):
     auth_logout(request)
