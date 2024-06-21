@@ -63,12 +63,6 @@ def aggregate_and_update_attendance():
             attendance.total_absent = total_absent
             attendance.save()
 
-def aggregate_attendance_view(request):
-    # Call the function to aggregate and update attendance
-    aggregate_and_update_attendance()
-
-    # Redirect or render as needed
-    return redirect('dashboard')  # Replace with your dashboard URL name
 
 
 def store_new_student(request):
