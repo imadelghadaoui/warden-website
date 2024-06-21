@@ -44,7 +44,7 @@
                 </a>
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="{% url 'dashboard' %}" class="nav-link px-2 text-secondary">Home</a></li>
+                    <li><a href="{% url 'homepage' %}" class="nav-link px-2 text-secondary">Home</a></li>
                     <li><a href="#" class="nav-link px-2 text-white">Contact us</a></li>
                 </ul>
 
@@ -57,7 +57,7 @@
     </header>
 
     <div class="container table-container">
-        <h2>Presence Records for Student ID: {{ student_id }}</h2>
+        <h2>Presence Records for Student : {{ student_id }}</h2>
         <div class="table-responsive small">
             <table class="table table-striped table-sm">
                 <thead>

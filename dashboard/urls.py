@@ -1,6 +1,6 @@
 # dashboard/urls.py
 from django.urls import path
-from .views import dashboard,get_presence_records, list_students, store_new_student,view_student, edit_student, delete_student, presence_create,  get_presence_records,delete_presence_record,edit_presence_record
+from .views import dashboard,get_presence_records,add_class,class_list,delete_class, list_students,store_new_student,view_student, edit_student, delete_student, presence_create,  get_presence_records,delete_presence_record,edit_presence_record
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -20,7 +20,9 @@ urlpatterns = [
     path('presence_records/<int:student_id>/', get_presence_records, name='get_presence_records'),
     path('presence_records/edit/<int:record_id>/', edit_presence_record, name='edit_presence_record'),
     path('presence_records/delete/<int:record_id>/', delete_presence_record, name='delete_presence_record'),
-   
+    path('add-class/', add_class, name='add_class'),
+    path('class-list/', class_list, name='class_list'),
+    path('delete-class/<int:class_id>/', delete_class, name='delete_class'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

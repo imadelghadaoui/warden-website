@@ -4,23 +4,36 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 # views.py
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Student, PresenceRecords , Attendance
+from .models import Student, PresenceRecords , Attendance , Class
 from .serializers import StudentSerializer, PresenceRecordSerializer
-from .forms import StudentForm,PresenceRecordForm
+from .forms import StudentForm,PresenceRecordForm , ClassForm
 from django.shortcuts import render, redirect
 
 
 
+
 #@login_required
+
+
 def dashboard(request):
-    # Assuming you have a view function to render the attendance dashboard
-    attendance_data = Attendance.objects.first()  # Assuming there's only one attendance record
+    attendance_data = Attendance.objects.all()
+    
+    for record in attendance_data:
+        print('RECORD:::::::',record)
+        if record.total_students > 0:
+            record.attendance_rate = (record.total_present / record.total_students) * 100
+        else:
+            record.attendance_rate = None
+    
     context = {
         'attendance_data': attendance_data,
     }
+    print('attendance_data:::::::',attendance_data)
     return render(request, 'dashboard.html', context)
+
 
 @api_view(['GET'])
 def list_students(request):
@@ -37,11 +50,6 @@ def store_new_student(request):
     else:
         form = StudentForm()
     return render(request, 'Students/AddStudent.html', {'form': form})
-
-
-
-
-
 
 @api_view(['PUT'])
 def api_edit_student(request, student_id):
@@ -81,16 +89,31 @@ def view_student(request, student_id):
     return render(request, 'Students/View/view_student.html', {'student': student})
 
 
+# views.py
+
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from .forms import PresenceRecordForm
+from .models import Student, Class  # Import your Student and Class models
+
 def presence_create(request):
+    student_id = request.GET.get('student_id', None)  # Get student_id from query parameters if available
+    class_id = request.GET.get('class_id', None)  # Get class_id from query parameters if available
+
     if request.method == 'POST':
         form = PresenceRecordForm(request.POST)
         if form.is_valid():
-            form.save()
-            student_id = form.cleaned_data['student'].roll_number  # Adjusted to use 'id'
-            return redirect('get_presence_records', student_id=student_id)
+            presence_record = form.save(commit=False)
+            # Update student and class information if they were provided in the GET request
+            if student_id:
+                presence_record.student = get_object_or_404(Student, roll_number=student_id)
+            if class_id:
+                presence_record.class_name = get_object_or_404(Class, id=class_id)
+            presence_record.save()
+            return redirect(reverse('get_presence_records', kwargs={'student_id': presence_record.student.roll_number}))
     else:
-        form = PresenceRecordForm()
-    
+        form = PresenceRecordForm(initial={'student': student_id, 'class_name': class_id})
+
     return render(request, 'presence/presenceAdd.html', {'form': form})
 
 @api_view(['GET'])
@@ -116,23 +139,24 @@ def delete_presence_record(request, record_id):
     record.delete()
     return redirect('get_presence_records', student_id=student_id)
 
-def attendance_summary(request):
-    # Get total number of presence records
-    total_records = PresenceRecords.objects.count()
 
-    # Get number of presence records (present=True)
-    total_presence = PresenceRecords.objects.filter(present=True).count()
 
-    # Calculate number of absences
-    total_absences = total_records - total_presence
+def add_class(request):
+    if request.method == 'POST':
+        form = ClassForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('class_list')  # Redirect to a class list view or any other view
+    else:
+        form = ClassForm()
+    return render(request, 'add_class.html', {'form': form})
 
-    # Calculate attendance rate
-    attendance_rate = (total_presence / total_records) * 100 if total_records > 0 else 0
-    print(total_presence,total_absences,attendance_rate)
-    # Return data as JSON response
-    data = {
-        'total_presence': total_presence,
-        'total_absences': total_absences,
-        'attendance_rate': attendance_rate
-    }
-    return JsonResponse(data)
+def class_list(request):
+    classes = Class.objects.all()
+    print(classes)
+    return render(request, 'class_list.html', {'classes': classes})
+
+def delete_class(request, class_id):
+    class_to_delete = get_object_or_404(Class, id=class_id)
+    class_to_delete.delete()
+    return redirect(reverse('class_list'))
