@@ -23,6 +23,8 @@ urlpatterns = [
     path('add-class/', add_class, name='add_class'),
     path('class-list/', class_list, name='class_list'),
     path('delete-class/<int:class_id>/', delete_class, name='delete_class'),
+    #path('aggregate-attendance/', aggregate_attendance, name='aggregate_attendance'),
+   
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

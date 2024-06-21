@@ -40,3 +40,9 @@ class Attendance(models.Model):
 
     def __str__(self):
         return f"{self.date} - {self.class_name.name}"
+    
+    @property
+    def attendance_rate(self):
+        if self.total_students > 0:
+            return (self.total_present / self.total_students) * 100
+        return None

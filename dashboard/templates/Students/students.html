@@ -22,13 +22,14 @@
           </a>
     
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="{{ dashboard }}" class="nav-link px-2 text-secondary">Home</a></li>
-              <li><a href="{{ contact_us }}" class="nav-link px-2 text-white">Contact us</a></li>
+              <li><a href="{% url 'homepage' %}" class="nav-link px-2 text-secondary">Home</a></li>
+              <li><a href="{% url 'contact_us' %}" class="nav-link px-2 text-white">Contact us</a></li>
             </ul>
     
     
             <div class="text-end">
               <a href="{% url 'store_new_student' %}" class="btn btn-success">Add New Student</a>
+              
               <button type="button" class="btn btn-warning">logout</button>
             </div>
           </div>
@@ -52,6 +53,7 @@
                     <td>{{ student.name }}</td>
                     <td>{{ student.total_presence }}</td>
                     <td>
+                        <a href="{% url 'get_presence_records' student.roll_number %}" class="btn btn-primary btn-sm">View Presence record</a>
                         <a href="{% url 'view_student' student.roll_number %}" class="btn btn-primary btn-sm">View</a>
                         <a href="{% url 'edit_student' student.roll_number %}" class="btn btn-primary btn-sm">Edit</a>
                         <a href="{% url 'delete_student' student.roll_number %}" class="btn btn-danger btn-sm">Delete</a>

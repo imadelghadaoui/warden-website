@@ -1,4 +1,5 @@
 # dashboard/views.py
+from datetime import timezone
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -9,7 +10,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Student, PresenceRecords , Attendance , Class
 from .serializers import StudentSerializer, PresenceRecordSerializer
-from .forms import StudentForm,PresenceRecordForm , ClassForm
+from .forms import StudentForm,PresenceRecordForm , ClassForm, AttendanceForm
 from django.shortcuts import render, redirect
 
 
@@ -20,25 +21,54 @@ from django.shortcuts import render, redirect
 
 def dashboard(request):
     attendance_data = Attendance.objects.all()
-    
-    for record in attendance_data:
-        print('RECORD:::::::',record)
-        if record.total_students > 0:
-            record.attendance_rate = (record.total_present / record.total_students) * 100
-        else:
-            record.attendance_rate = None
-    
     context = {
         'attendance_data': attendance_data,
     }
-    print('attendance_data:::::::',attendance_data)
     return render(request, 'dashboard.html', context)
-
 
 @api_view(['GET'])
 def list_students(request):
     students = Student.objects.all()
     return render(request, 'Students/students.html', {'students': students})
+
+def aggregate_and_update_attendance():
+    # Retrieve all classes for which you want to aggregate attendance
+    classes = Class.objects.all()
+
+    for class_obj in classes:
+        # Filter presence records for the current class
+        presence_records = PresenceRecords.objects.filter(class_name=class_obj)
+
+        # Aggregate data
+        total_students = presence_records.count()
+        total_present = presence_records.filter(present=True).count()
+        total_absent = total_students - total_present
+
+        # Get or create attendance record for the class and current date
+        attendance_date = timezone.now().date()  # or any date you want to use
+        attendance, created = Attendance.objects.get_or_create(
+            date=attendance_date,
+            class_name=class_obj,
+            defaults={
+                'total_students': total_students,
+                'total_present': total_present,
+                'total_absent': total_absent,
+            }
+        )
+
+        if not created:
+            # Update existing attendance record if it already exists
+            attendance.total_students = total_students
+            attendance.total_present = total_present
+            attendance.total_absent = total_absent
+            attendance.save()
+
+def aggregate_attendance_view(request):
+    # Call the function to aggregate and update attendance
+    aggregate_and_update_attendance()
+
+    # Redirect or render as needed
+    return redirect('dashboard')  # Replace with your dashboard URL name
 
 
 def store_new_student(request):
@@ -91,10 +121,6 @@ def view_student(request, student_id):
 
 # views.py
 
-from django.shortcuts import render, redirect
-from django.urls import reverse
-from .forms import PresenceRecordForm
-from .models import Student, Class  # Import your Student and Class models
 
 def presence_create(request):
     student_id = request.GET.get('student_id', None)  # Get student_id from query parameters if available
