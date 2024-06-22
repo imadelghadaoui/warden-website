@@ -1,7 +1,7 @@
 # serializers.py
 
 from rest_framework import serializers
-from .models import Student, PresenceRecord
+from .models import Student, PresenceRecords
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,5 +10,5 @@ class StudentSerializer(serializers.ModelSerializer):
 
 class PresenceRecordSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PresenceRecord
+        model = PresenceRecords
         fields = ['id', 'student', 'date', 'present']
