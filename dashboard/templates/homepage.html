@@ -10,24 +10,167 @@
       .back{
         background: linear-gradient(135deg,#B2D9C4, #a1e4f7, #C29470);
       }
+      .switch-button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  justify-content: center;
+  margin: auto;
+  height: 55px;
+}
+
+.switch-button .switch-outer {
+  height: 100%;
+  background: #252532;
+  width: 115px;
+  border-radius: 165px;
+  -webkit-box-shadow: inset 0px 5px 10px 0px #16151c, 0px 3px 6px -2px #403f4e;
+  box-shadow: inset 0px 5px 10px 0px #16151c, 0px 3px 6px -2px #403f4e;
+  border: 1px solid #32303e;
+  padding: 6px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.switch-button .switch-outer input[type="checkbox"] {
+  opacity: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: absolute;
+}
+
+.switch-button .switch-outer .button-toggle {
+  height: 42px;
+  width: 42px;
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(#3b3a4e),
+    to(#272733)
+  );
+  background: -o-linear-gradient(#3b3a4e, #272733);
+  background: linear-gradient(#3b3a4e, #272733);
+  border-radius: 100%;
+  -webkit-box-shadow: inset 0px 5px 4px 0px #424151, 0px 4px 15px 0px #0f0e17;
+  box-shadow: inset 0px 5px 4px 0px #424151, 0px 4px 15px 0px #0f0e17;
+  position: relative;
+  z-index: 2;
+  -webkit-transition: left 0.3s ease-in;
+  -o-transition: left 0.3s ease-in;
+  transition: left 0.3s ease-in;
+  left: 0;
+}
+
+.switch-button
+  .switch-outer
+  input[type="checkbox"]:checked
+  + .button
+  .button-toggle {
+  left: 58%;
+}
+
+.switch-button
+  .switch-outer
+  input[type="checkbox"]:checked
+  + .button
+  .button-indicator {
+  -webkit-animation: indicator 1s forwards;
+  animation: indicator 1s forwards;
+}
+
+.switch-button .switch-outer .button {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+
+.switch-button .switch-outer .button-indicator {
+  height: 25px;
+  width: 25px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  border-radius: 50%;
+  border: 3px solid #ef565f;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  right: 10px;
+  position: relative;
+}
+
+@-webkit-keyframes indicator {
+  30% {
+    opacity: 0;
+  }
+
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    border: 3px solid #60d480;
+    left: -68%;
+  }
+}
+
+@keyframes indicator {
+  30% {
+    opacity: 0;
+  }
+
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    border: 3px solid #60d480;
+    left: -68%;
+  }
+}
     </style>
 </head>
 <body class="back">
     <header class="p-3 text-bg-dark">
         <div class="container">
           <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-              <img src="C:\Users\imad kannouf\Downloads\5AF004D0-2634-4999-B2CB-E29C9002151F.png" alt="Logo" class="me-2" width="40" height="40">
+            <a href="{% url 'homepage' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+              <img src="C:\Users\imad kannouf\Documents\GitHub\warden-website\dashboard\templates/Image.png" alt=" " class="me-2" width="40" height="40">
+              <p style="font-style: italic;color: rgb(72, 241, 213);">smart cam</p>
           </a>
     
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="{% url 'home' %}" class="nav-link px-2 text-secondary">Home</a></li>
+              <li><a href="{% url 'homepage' %}" class="nav-link px-2 text-secondary">Home</a></li>
               <li><a href="{% url 'contact_us' %}" class="nav-link px-2 text-white">Contact us</a></li>
             </ul>
     
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-              <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
-            </form>
+            <div class="d-flex align-items-center">
+              <p class="mb-0 me-2">Open Camera</p>
+              <label class="switch-button" for="switch">
+                <div class="switch-outer">
+                  <input id="switch" type="checkbox">
+                  <div class="button">
+                    <span class="button-toggle"></span>
+                    <span class="button-indicator"></span>
+                  </div>
+                </div>
+              </label>
+            </div>
+            
     
             <div class="text-end">
               <button type="button" class="btn btn-warning">logout</button>
@@ -62,7 +205,7 @@
             </div>
             <h3 class="fs-2 text-body-emphasis">Students attendence</h3>
             <p>Here is the attendence of each student is marked and ploted that you can watch </p>
-            <a href="{% url 'contact_us' %}" class="icon-link">
+            <a href="{% url 'list_students' %}" class="icon-link">
               Call to action
               <svg class="bi"><use xlink:href="#chevron-right"/></svg>
             </a>
@@ -73,7 +216,7 @@
             </div>
             <h3 class="fs-2 text-body-emphasis">Classes analytics</h3>
             <p>Here there are some analytics of classes like the numbers of students present in a day that you can select </p>
-            <a href="dashboard.html" class="icon-link">
+            <a href="{% url 'class_list' %}" class="icon-link">
               Call to action
               <svg class="bi"><use xlink:href="#chevron-right"/></svg>
             </a>

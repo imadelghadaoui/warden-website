@@ -20,7 +20,7 @@ from django.shortcuts import render, redirect
 
 
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    return render(request, 'homepage.html')
 
 
 @api_view(['GET'])
@@ -107,7 +107,7 @@ def delete_student(request, student_id):
 
 def view_student(request, student_id):
     student = get_object_or_404(Student, pk=student_id)
-    return render(request, 'Students/View/view_student.html', {'student': student})
+    return render(request, 'Students/view/view_student.html', {'student': student})
 
 
 # views.py
